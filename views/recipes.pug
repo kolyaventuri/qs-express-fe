@@ -9,9 +9,14 @@ html
       h2
         | Recipes For&nbsp;
         span.food-name
+      div.pagination
+        if page > 1
+          a(href="?page=" + (page - 1)) Last Page&nbsp;&nbsp;
+        a(href="?page=" + (page + 1)) Next Page
       div.meals-container
         ul.list
     script.
       window.food_id=#{id};
+      window.page=#{page};
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
     script(src='/main.bundle.js')
