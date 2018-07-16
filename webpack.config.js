@@ -18,5 +18,13 @@ module.exports = {
   },
   resolve: {
     extensions: ['', '.js', '.json', '.css', '.scss']
+  },
+
+  devServer: {
+    before: function(app) {
+      app.get('/foods/:id/recipes', function(req, res) {
+        res.send(req.params.id);
+      })
+    }
   }
 };
