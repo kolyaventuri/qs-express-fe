@@ -18,7 +18,7 @@ app.set('view engine', 'pug');
 
 
 app.get('/foods/:id/recipes', (req, res) => {
-  res.render('recipes', { id: req.params.id });
+  res.render('recipes', { id: req.params.id, page: Number.parseInt(req.query.page) || 1 });
 });
 
 app.get('*', (req, res) => {
