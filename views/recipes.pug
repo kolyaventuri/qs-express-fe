@@ -1,2 +1,13 @@
-h1 Hi
-h2= id
+doctype html
+html
+  head
+    title Quantified Self
+  body
+    div.diary-body-container
+      h2 Recipes For&nbsp;
+      span.food-name
+      div.meals-container
+        ul.list
+    script.
+      window.food_id=#{id};
+    script(src='/main.bundle.js')
