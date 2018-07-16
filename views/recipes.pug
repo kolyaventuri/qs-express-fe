@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    title Quantified Self - Recipes
+  body
+    div.diary-body-container
+      a(href="/index.html")
+        button.default-button Meal Diary
+      h2
+        | Recipes For&nbsp;
+        span.food-name
+      div.meals-container
+        ul.list
+    script.
+      window.food_id=#{id};
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+    script(src='/main.bundle.js')
