@@ -48,10 +48,11 @@
 
 	var foodsRequests = __webpack_require__(1);
 	var foodsDiary = __webpack_require__(3);
-	var events = __webpack_require__(4);
+	var recipesRequest = __webpack_require__(4);
+	var events = __webpack_require__(5);
 	var fileName = location.pathname.split('/').slice(-1)[0];
-	__webpack_require__(5);
-	__webpack_require__(9);
+	__webpack_require__(6);
+	__webpack_require__(10);
 
 	$(document).ready(function () {
 	  renderData(fileName);
@@ -71,6 +72,8 @@
 	var renderData = function renderData(fileName) {
 	  if (fileName === 'foods.html' || fileName === 'foods') {
 	    foodsRequests.getFoods();
+	  } else if (fileName === 'recipes') {
+	    recipesRequest.getRecipes();
 	  } else {
 	    foodsDiary.getDiaryFoods();
 	    foodsDiary.getMeals();
@@ -596,6 +599,109 @@
 
 /***/ }),
 /* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var baseURL = __webpack_require__(2).baseURL();
+
+	var recipesAPIFetch = function recipesAPIFetch(id, method, body) {
+	  var url = baseURL + '/api/v1/foods/' + id + '/recipes';
+	  return fetch(url, {
+	    method: '' + method,
+	    headers: { 'Content-Type': 'application/json' },
+	    body: JSON.stringify(body)
+	  });
+	};
+
+	var foodNameAPIFetch = function foodNameAPIFetch(id, method, body) {
+	  var url = baseURL + '/api/v1/foods/' + id;
+	  return fetch(url, {
+	    method: '' + method,
+	    headers: { 'Content-Type': 'application/json' },
+	    body: JSON.stringify(body)
+	  });
+	};
+
+	var getRecipes = function getRecipes() {
+	  recipesAPIFetch(window.food_id, 'GET').then(function (response) {
+	    return handleResponse(response);
+	  }).then(function (recipes) {
+	    return printRecipes(recipes.recipes);
+	  }).catch(function (error) {
+	    return console.error({ error: error });
+	  });
+
+	  foodNameAPIFetch(window.food_id, 'GET').then(function (response) {
+	    return handleResponse(response);
+	  }).then(function (food) {
+	    return printName(food);
+	  }).catch(function (error) {
+	    return console.error({ error: error });
+	  });
+	};
+
+	var handleResponse = function handleResponse(response) {
+	  return response.json().then(function (json) {
+	    if (!response.ok) {
+	      var error = {
+	        status: response.status,
+	        statusText: response.statusText,
+	        json: json
+	      };
+	      return Promise.reject(error);
+	    }
+
+	    return json;
+	  });
+	};
+
+	var printRecipes = function printRecipes(recipes) {
+	  var _iteratorNormalCompletion = true;
+	  var _didIteratorError = false;
+	  var _iteratorError = undefined;
+
+	  try {
+	    for (var _iterator = recipes[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	      var recipe = _step.value;
+
+	      var item = $('<li></li>');
+
+	      var name = $('<a></a>');
+
+	      $(name).attr('href', recipe.url);
+	      $(name).attr('target', '_blank');
+	      $(name).append('<h3>' + recipe.name + '</h3>');
+	      $(item).append(name);
+
+	      $('.list').append(item);
+	    }
+	  } catch (err) {
+	    _didIteratorError = true;
+	    _iteratorError = err;
+	  } finally {
+	    try {
+	      if (!_iteratorNormalCompletion && _iterator.return) {
+	        _iterator.return();
+	      }
+	    } finally {
+	      if (_didIteratorError) {
+	        throw _iteratorError;
+	      }
+	    }
+	  }
+	};
+
+	var printName = function printName(food) {
+	  $('.food-name').text(food.name);
+	};
+
+	module.exports = {
+	  getRecipes: getRecipes
+	};
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -637,16 +743,16 @@
 	};
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(6);
+	var content = __webpack_require__(7);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(8)(content, {});
+	var update = __webpack_require__(9)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -663,10 +769,10 @@
 	}
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(7)();
+	exports = module.exports = __webpack_require__(8)();
 	// imports
 
 
@@ -677,7 +783,7 @@
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports) {
 
 	/*
@@ -733,7 +839,7 @@
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/*
@@ -985,16 +1091,16 @@
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(10);
+	var content = __webpack_require__(11);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(8)(content, {});
+	var update = __webpack_require__(9)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -1011,10 +1117,10 @@
 	}
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(7)();
+	exports = module.exports = __webpack_require__(8)();
 	// imports
 	exports.push([module.id, "@import url(https://fonts.googleapis.com/css?family=Montserrat);", ""]);
 
